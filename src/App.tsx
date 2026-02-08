@@ -1,19 +1,23 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { parseCSV, generateCSV, downloadCSV } from './utils/csv';
+import { parseCSV, downloadCSV } from './utils/csv';
 import type { CSVData } from './utils/csv';
 import { analyzeAndPredict } from './ml/engine';
 import type { AnalysisResult } from './ml/engine';
+import { enrichWithColumbiaData, detectAddressField, getColumbiaSummary } from './utils/geo';
+import type { ColumbiaSummary } from './utils/geo';
 import { FileUploadCard } from './components/FileUploadCard';
 import { AnalysisDashboard } from './components/AnalysisDashboard';
 import { ResultsTable } from './components/ResultsTable';
 import { FeatureInsights } from './components/FeatureInsights';
 import { FieldSelector, isLikelyContactField } from './components/FieldSelector';
+import { ColumbiaInsights } from './components/ColumbiaInsights';
 import {
   Brain,
   Download,
   ArrowRight,
   Sparkles,
   AlertCircle,
+  MapPin,
 } from 'lucide-react';
 
 type AppStep = 'upload' | 'analyzing' | 'results';
@@ -25,6 +29,21 @@ export function App() {
   const [step, setStep] = useState<AppStep>('upload');
   const [error, setError] = useState<string | null>(null);
   const [excludedFields, setExcludedFields] = useState<Set<string>>(new Set());
+  const [columbiaEnabled, setColumbiaEnabled] = useState(true);
+  const [memberColumbiaSummary, setMemberColumbiaSummary] = useState<ColumbiaSummary | null>(null);
+  const [contactColumbiaSummary, setContactColumbiaSummary] = useState<ColumbiaSummary | null>(null);
+  const [enrichedContactData, setEnrichedContactData] = useState<Record<string, string>[] | null>(null);
+
+  // Detect address field from either dataset
+  const addressField = useMemo(() => {
+    if (memberData) {
+      return detectAddressField(memberData.headers);
+    }
+    if (contactData) {
+      return detectAddressField(contactData.headers);
+    }
+    return null;
+  }, [memberData, contactData]);
 
   // Compute shared fields between both CSVs
   const sharedFields = useMemo(() => {
@@ -32,10 +51,16 @@ export function App() {
     return memberData.headers.filter(h => contactData.headers.includes(h));
   }, [memberData, contactData]);
 
-  // Compute which fields will actually be used for analysis
+  // Compute which fields will actually be used for analysis (including synthetic Columbia fields)
   const analysisFields = useMemo(() => {
-    return sharedFields.filter(f => !excludedFields.has(f));
-  }, [sharedFields, excludedFields]);
+    const base = sharedFields.filter(f => !excludedFields.has(f));
+    // Add synthetic Columbia fields if enabled and address field exists
+    if (columbiaEnabled && addressField) {
+      const syntheticFields = ['columbia_resident', 'distance_from_columbia_mi'];
+      return [...base, ...syntheticFields.filter(f => !base.includes(f))];
+    }
+    return base;
+  }, [sharedFields, excludedFields, columbiaEnabled, addressField]);
 
   // Auto-detect contact-only fields and exclude them
   const autoDetectExclusions = useCallback(() => {
@@ -68,7 +93,7 @@ export function App() {
     }
   }, []);
 
-  // Auto-detect exclusions when both files are loaded
+  // Auto-detect exclusions and compute Columbia summaries when both files are loaded
   useEffect(() => {
     if (memberData && contactData) {
       const fields = memberData.headers.filter(h => contactData.headers.includes(h));
@@ -79,6 +104,13 @@ export function App() {
         }
       });
       setExcludedFields(autoExcluded);
+
+      // Compute Columbia summaries if address field exists
+      const addrField = detectAddressField(memberData.headers);
+      if (addrField) {
+        setMemberColumbiaSummary(getColumbiaSummary(memberData.rows, addrField));
+        setContactColumbiaSummary(getColumbiaSummary(contactData.rows, addrField));
+      }
     }
   }, [memberData, contactData]);
 
@@ -115,10 +147,22 @@ export function App() {
     // Use setTimeout to allow UI to update before heavy computation
     setTimeout(() => {
       try {
+        let enrichedMembers = memberData.rows;
+        let enrichedContacts = contactData.rows;
+
+        // Enrich with Columbia residency data if enabled
+        if (columbiaEnabled && addressField) {
+          enrichedMembers = enrichWithColumbiaData(memberData.rows, addressField);
+          enrichedContacts = enrichWithColumbiaData(contactData.rows, addressField);
+          setEnrichedContactData(enrichedContacts);
+        } else {
+          setEnrichedContactData(null);
+        }
+
         // Pass only the included fields (not excluded) to the ML engine
         const result = analyzeAndPredict(
-          memberData.rows,
-          contactData.rows,
+          enrichedMembers,
+          enrichedContacts,
           analysisFields,
           analysisFields
         );
@@ -129,27 +173,47 @@ export function App() {
         setStep('upload');
       }
     }, 100);
-  }, [memberData, contactData, analysisFields]);
+  }, [memberData, contactData, analysisFields, columbiaEnabled, addressField]);
 
   const handleDownload = useCallback(() => {
     if (!analysisResult || !contactData) return;
 
     const scoreMap = new Map(
       analysisResult.predictions.map(p => {
-        const key = JSON.stringify(p.originalData);
-        return [key, p.score];
+        // Match using original data fields (without synthetic ones)
+        const key = contactData.headers.map(h => p.originalData[h] || '').join('|||');
+        return [key, p];
       })
     );
 
-    const scores = contactData.rows.map(row => {
-      const key = JSON.stringify(row);
-      return scoreMap.get(key) || 0;
+    // Build output rows with synthetic columns included
+    const extraHeaders: string[] = [];
+    if (columbiaEnabled && addressField && enrichedContactData) {
+      extraHeaders.push('Columbia_Resident', 'Distance_From_Columbia_MI');
+    }
+
+    const allHeaders = [...contactData.headers, ...extraHeaders, 'Membership_Score'];
+
+    const csvRows = contactData.rows.map((row, idx) => {
+      const key = contactData.headers.map(h => row[h] || '').join('|||');
+      const prediction = scoreMap.get(key);
+      const score = prediction ? prediction.score : 0;
+
+      const values: Record<string, string> = { ...row };
+
+      if (columbiaEnabled && addressField && enrichedContactData && enrichedContactData[idx]) {
+        values['Columbia_Resident'] = enrichedContactData[idx].columbia_resident === 'yes' ? 'Resident' : 'Non-Resident';
+        values['Distance_From_Columbia_MI'] = enrichedContactData[idx].distance_from_columbia_mi || '';
+      }
+
+      values['Membership_Score'] = String(score);
+      return values;
     });
 
-    const csv = generateCSV(contactData.rows, scores, contactData.headers);
+    const csv = generateCSVEnhanced(csvRows, allHeaders);
     const fileName = contactData.fileName.replace('.csv', '') + '_scored.csv';
     downloadCSV(csv, fileName);
-  }, [analysisResult, contactData]);
+  }, [analysisResult, contactData, columbiaEnabled, addressField, enrichedContactData]);
 
   const resetApp = useCallback(() => {
     setMemberData(null);
@@ -158,6 +222,10 @@ export function App() {
     setStep('upload');
     setError(null);
     setExcludedFields(new Set());
+    setColumbiaEnabled(true);
+    setMemberColumbiaSummary(null);
+    setContactColumbiaSummary(null);
+    setEnrichedContactData(null);
   }, []);
 
   return (
@@ -244,7 +312,7 @@ export function App() {
               />
             </div>
 
-            {/* Field Selector — replaces the old static "Shared Data Fields" section */}
+            {/* Field Selector */}
             {memberData && contactData && sharedFields.length > 0 && (
               <div className="max-w-4xl mx-auto">
                 <FieldSelector
@@ -255,6 +323,115 @@ export function App() {
                   onIncludeAll={handleIncludeAll}
                   onAutoDetect={autoDetectExclusions}
                 />
+              </div>
+            )}
+
+            {/* Columbia, MD Residency Toggle */}
+            {memberData && contactData && addressField && (
+              <div className="max-w-4xl mx-auto">
+                <div className="rounded-xl border border-white/10 bg-white/5 p-6 space-y-5">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 flex-shrink-0">
+                        <MapPin className="h-5 w-5 text-blue-400" />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-semibold text-white">Columbia, MD Residency Analysis</h3>
+                        <p className="text-sm text-slate-400 mt-0.5">
+                          Automatically classifies addresses as <span className="text-emerald-400">Resident</span> (in Columbia) or{' '}
+                          <span className="text-amber-400">Non-Resident</span> (outside Columbia) and calculates distance from Columbia&apos;s border.
+                        </p>
+                      </div>
+                    </div>
+                    {/* Toggle switch */}
+                    <button
+                      onClick={() => setColumbiaEnabled(!columbiaEnabled)}
+                      className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors flex-shrink-0 ${
+                        columbiaEnabled ? 'bg-blue-500' : 'bg-white/10'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
+                          columbiaEnabled ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  {columbiaEnabled && (
+                    <>
+                      <div className="rounded-lg bg-blue-500/5 border border-blue-500/15 px-4 py-3 text-sm text-blue-200">
+                        <p>
+                          <span className="font-medium text-blue-300">Address field detected:</span>{' '}
+                          <code className="bg-white/5 px-1.5 py-0.5 rounded text-blue-200">{addressField}</code>
+                        </p>
+                        <p className="mt-1.5 text-blue-300/80 text-xs">
+                          Two synthetic analysis fields will be created: <code className="bg-white/5 px-1 rounded">columbia_resident</code> (yes/no) and{' '}
+                          <code className="bg-white/5 px-1 rounded">distance_from_columbia_mi</code> (miles from border for non-residents).
+                          These will be fed into the ML model alongside your selected fields.
+                        </p>
+                      </div>
+
+                      {/* Preview summaries */}
+                      {memberColumbiaSummary && contactColumbiaSummary && (
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div className="rounded-lg bg-white/[0.03] border border-white/5 p-4 space-y-2">
+                            <p className="text-xs font-semibold text-violet-300 uppercase tracking-wider">Members Preview</p>
+                            <div className="flex items-center gap-4 text-sm">
+                              <span className="text-emerald-400">
+                                <span className="font-bold">{memberColumbiaSummary.residents}</span> Residents
+                              </span>
+                              <span className="text-amber-400">
+                                <span className="font-bold">{memberColumbiaSummary.nonResidents}</span> Non-Res
+                              </span>
+                              {memberColumbiaSummary.unknown > 0 && (
+                                <span className="text-slate-500">
+                                  <span className="font-bold">{memberColumbiaSummary.unknown}</span> Unknown
+                                </span>
+                              )}
+                            </div>
+                            <div className="relative h-2 rounded-full bg-white/5 overflow-hidden flex">
+                              <div
+                                className="bg-emerald-500 h-full"
+                                style={{ width: `${(memberColumbiaSummary.residents / memberColumbiaSummary.total) * 100}%` }}
+                              />
+                              <div
+                                className="bg-amber-500 h-full"
+                                style={{ width: `${(memberColumbiaSummary.nonResidents / memberColumbiaSummary.total) * 100}%` }}
+                              />
+                            </div>
+                          </div>
+                          <div className="rounded-lg bg-white/[0.03] border border-white/5 p-4 space-y-2">
+                            <p className="text-xs font-semibold text-indigo-300 uppercase tracking-wider">Contacts Preview</p>
+                            <div className="flex items-center gap-4 text-sm">
+                              <span className="text-emerald-400">
+                                <span className="font-bold">{contactColumbiaSummary.residents}</span> Residents
+                              </span>
+                              <span className="text-amber-400">
+                                <span className="font-bold">{contactColumbiaSummary.nonResidents}</span> Non-Res
+                              </span>
+                              {contactColumbiaSummary.unknown > 0 && (
+                                <span className="text-slate-500">
+                                  <span className="font-bold">{contactColumbiaSummary.unknown}</span> Unknown
+                                </span>
+                              )}
+                            </div>
+                            <div className="relative h-2 rounded-full bg-white/5 overflow-hidden flex">
+                              <div
+                                className="bg-emerald-500 h-full"
+                                style={{ width: `${(contactColumbiaSummary.residents / contactColumbiaSummary.total) * 100}%` }}
+                              />
+                              <div
+                                className="bg-amber-500 h-full"
+                                style={{ width: `${(contactColumbiaSummary.nonResidents / contactColumbiaSummary.total) * 100}%` }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             )}
 
@@ -279,6 +456,11 @@ export function App() {
                       {analysisFields.slice(0, 5).join(', ')}
                       {analysisFields.length > 5 ? `, +${analysisFields.length - 5} more` : ''}
                     </span>
+                    {columbiaEnabled && addressField && (
+                      <span className="ml-2 text-blue-400">
+                        (incl. Columbia residency & distance)
+                      </span>
+                    )}
                   </p>
                   {excludedFields.size > 0 && (
                     <p className="text-xs text-slate-500">
@@ -305,11 +487,12 @@ export function App() {
             {/* How It Works */}
             <div className="max-w-4xl mx-auto pt-8">
               <h3 className="text-center text-sm font-semibold text-slate-500 uppercase tracking-wider mb-6">How It Works</h3>
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-4 gap-6">
                 {[
                   { step: '1', title: 'Upload Data', desc: 'Provide your member list and a contact list as CSV files with shared data columns.' },
                   { step: '2', title: 'Select Fields', desc: 'Choose which data points to analyze. Exclude contact-only fields like name, email, and phone.' },
-                  { step: '3', title: 'Get Scores', desc: 'Each contact receives a 1-100 score. View results in-app or download the scored CSV.' },
+                  { step: '3', title: 'Geo Analysis', desc: 'Addresses are auto-classified as Columbia residents or non-residents with distance calculations.' },
+                  { step: '4', title: 'Get Scores', desc: 'Each contact receives a 1-100 score. View results in-app or download the scored CSV.' },
                 ].map(item => (
                   <div key={item.step} className="rounded-xl border border-white/5 bg-white/[0.02] p-6 text-center">
                     <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-violet-500/20 text-violet-400 font-bold text-sm mb-3">
@@ -334,7 +517,8 @@ export function App() {
             <div className="text-center space-y-2">
               <h2 className="text-2xl font-bold text-white">Analyzing Member Patterns</h2>
               <p className="text-slate-400">
-                Training model on {memberData?.rows.length} members across {analysisFields.length} fields,
+                Training model on {memberData?.rows.length} members across {analysisFields.length} fields
+                {columbiaEnabled && addressField ? ' (including Columbia geo-analysis)' : ''},
                 scoring {contactData?.rows.length} contacts...
               </p>
             </div>
@@ -346,7 +530,7 @@ export function App() {
           <div className="space-y-8">
             {/* Show which fields were used */}
             <div className="rounded-lg border border-white/5 bg-white/[0.02] px-4 py-3">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between flex-wrap gap-2">
                 <p className="text-sm text-slate-400">
                   <span className="text-slate-300 font-medium">Fields analyzed:</span>{' '}
                   {analysisFields.join(', ')}
@@ -359,16 +543,45 @@ export function App() {
                 )}
               </div>
             </div>
+
             <AnalysisDashboard result={analysisResult} />
+
+            {/* Columbia Insights in Results */}
+            {columbiaEnabled && memberColumbiaSummary && contactColumbiaSummary && (
+              <ColumbiaInsights
+                memberSummary={memberColumbiaSummary}
+                contactSummary={contactColumbiaSummary}
+              />
+            )}
+
             <FeatureInsights features={analysisResult.featureImportances} />
             <ResultsTable
               predictions={analysisResult.predictions}
               headers={contactData.headers}
               onDownload={handleDownload}
+              columbiaEnabled={columbiaEnabled}
             />
           </div>
         )}
       </main>
     </div>
   );
+}
+
+// Enhanced CSV generator that handles arbitrary headers
+function generateCSVEnhanced(
+  data: Record<string, string>[],
+  headers: string[]
+): string {
+  const rows = data.map(row => {
+    const values = headers.map(h => {
+      const val = row[h] || '';
+      if (val.includes(',') || val.includes('"') || val.includes('\n')) {
+        return `"${val.replace(/"/g, '""')}"`;
+      }
+      return val;
+    });
+    return values.join(',');
+  });
+  return [headers.join(','), ...rows].join('\n');
 }

@@ -1,12 +1,13 @@
 import { useState, useMemo } from 'react';
 import type { PredictionResult } from '../ml/engine';
-import { Download, Search, ChevronLeft, ChevronRight, ArrowUpDown } from 'lucide-react';
+import { Download, Search, ChevronLeft, ChevronRight, ArrowUpDown, MapPin } from 'lucide-react';
 import { cn } from '../utils/cn';
 
 interface ResultsTableProps {
   predictions: PredictionResult[];
   headers: string[];
   onDownload: () => void;
+  columbiaEnabled?: boolean;
 }
 
 function ScoreBadge({ score }: { score: number }) {
@@ -51,11 +52,34 @@ function ScoreBadge({ score }: { score: number }) {
   );
 }
 
-export function ResultsTable({ predictions, headers, onDownload }: ResultsTableProps) {
+function ResidencyBadge({ data }: { data: Record<string, string> }) {
+  const isResident = data.columbia_resident === 'yes';
+  const distance = data.distance_from_columbia_mi;
+
+  return (
+    <div className="flex items-center gap-1.5">
+      <MapPin className={cn('h-3 w-3', isResident ? 'text-emerald-400' : 'text-amber-400')} />
+      <span className={cn(
+        'text-xs font-medium',
+        isResident ? 'text-emerald-400' : 'text-amber-400'
+      )}>
+        {isResident ? 'Resident' : 'Non-Res'}
+      </span>
+      {!isResident && distance && (
+        <span className="text-[10px] text-slate-500">
+          {distance} mi
+        </span>
+      )}
+    </div>
+  );
+}
+
+export function ResultsTable({ predictions, headers, onDownload, columbiaEnabled }: ResultsTableProps) {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [sortAsc, setSortAsc] = useState(false);
   const [filter, setFilter] = useState<'all' | 'high' | 'medium' | 'low'>('all');
+  const [residencyFilter, setResidencyFilter] = useState<'all' | 'resident' | 'non-resident'>('all');
   const pageSize = 20;
 
   // Select display columns - show first 5 columns + score
@@ -64,10 +88,18 @@ export function ResultsTable({ predictions, headers, onDownload }: ResultsTableP
   const filteredPredictions = useMemo(() => {
     let result = [...predictions];
 
-    // Apply filter
+    // Apply score filter
     if (filter === 'high') result = result.filter(p => p.score >= 70);
     else if (filter === 'medium') result = result.filter(p => p.score >= 40 && p.score < 70);
     else if (filter === 'low') result = result.filter(p => p.score < 40);
+
+    // Apply residency filter
+    if (columbiaEnabled && residencyFilter !== 'all') {
+      result = result.filter(p => {
+        const isRes = p.originalData.columbia_resident === 'yes';
+        return residencyFilter === 'resident' ? isRes : !isRes;
+      });
+    }
 
     // Apply search
     if (search) {
@@ -81,7 +113,7 @@ export function ResultsTable({ predictions, headers, onDownload }: ResultsTableP
     result.sort((a, b) => sortAsc ? a.score - b.score : b.score - a.score);
 
     return result;
-  }, [predictions, search, sortAsc, filter]);
+  }, [predictions, search, sortAsc, filter, columbiaEnabled, residencyFilter]);
 
   const totalPages = Math.ceil(filteredPredictions.length / pageSize);
   const pagedPredictions = filteredPredictions.slice(page * pageSize, (page + 1) * pageSize);
@@ -119,7 +151,7 @@ export function ResultsTable({ predictions, headers, onDownload }: ResultsTableP
         </div>
 
         {/* Filters */}
-        <div className="flex items-center gap-2 mt-4">
+        <div className="flex items-center gap-2 mt-4 flex-wrap">
           {(['all', 'high', 'medium', 'low'] as const).map(f => {
             const counts = {
               all: predictions.length,
@@ -143,6 +175,40 @@ export function ResultsTable({ predictions, headers, onDownload }: ResultsTableP
               </button>
             );
           })}
+
+          {/* Columbia residency filter */}
+          {columbiaEnabled && (
+            <>
+              <div className="w-px h-5 bg-white/10 mx-1" />
+              {(['all', 'resident', 'non-resident'] as const).map(f => {
+                const counts = {
+                  all: predictions.length,
+                  resident: predictions.filter(p => p.originalData.columbia_resident === 'yes').length,
+                  'non-resident': predictions.filter(p => p.originalData.columbia_resident !== 'yes').length,
+                };
+                const labels = {
+                  all: '📍 All Locations',
+                  resident: '🏠 Residents',
+                  'non-resident': '🗺️ Non-Residents',
+                };
+                return (
+                  <button
+                    key={f}
+                    onClick={() => { setResidencyFilter(f); setPage(0); }}
+                    className={cn(
+                      'rounded-lg px-3 py-1.5 text-xs font-medium transition',
+                      residencyFilter === f
+                        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                        : 'text-slate-400 hover:text-slate-200 border border-transparent hover:border-white/10'
+                    )}
+                  >
+                    {labels[f]}{' '}
+                    <span className="text-slate-500">({counts[f]})</span>
+                  </button>
+                );
+              })}
+            </>
+          )}
         </div>
       </div>
 
@@ -165,6 +231,14 @@ export function ResultsTable({ predictions, headers, onDownload }: ResultsTableP
                   {h}
                 </th>
               ))}
+              {columbiaEnabled && (
+                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">
+                  <span className="flex items-center gap-1">
+                    <MapPin className="h-3 w-3" />
+                    Columbia
+                  </span>
+                </th>
+              )}
               <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">
                 Top Factor
               </th>
@@ -184,6 +258,11 @@ export function ResultsTable({ predictions, headers, onDownload }: ResultsTableP
                     {prediction.originalData[h] || '—'}
                   </td>
                 ))}
+                {columbiaEnabled && (
+                  <td className="px-4 py-3">
+                    <ResidencyBadge data={prediction.originalData} />
+                  </td>
+                )}
                 <td className="px-4 py-3">
                   {prediction.factors[0] && (
                     <span className="text-xs text-slate-400">
