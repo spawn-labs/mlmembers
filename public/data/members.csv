@@ -1,0 +1,140 @@
+first_name,last_name,email,phone,address,age,gender,parental_status,birthdate,date_of_last_visit,visits_last_12_months,membership_type,member
+James,Whitfield,james.whitfield@gmail.com,555-201-3344,142 Oak Ridge Dr,52,Male,Parent,1972-03-14,2024-11-28,48,Golf & Play,yes
+Sandra,Mitchell,sandra.m@yahoo.com,555-302-4455,88 Maple Ln,47,Female,Parent,1977-06-21,2024-12-01,52,Golf & Play,yes
+Robert,Chen,robert.chen@outlook.com,555-403-5566,2201 Fairway Blvd,61,Male,Parent,1963-01-09,2024-11-15,44,Golf,yes
+Patricia,Donovan,pat.donovan@gmail.com,555-504-6677,310 Country Club Rd,55,Female,Non-Parent,1969-08-30,2024-12-03,38,Golf,yes
+Michael,Harrington,m.harrington@email.com,555-605-7788,17 Birch Creek Way,44,Male,Parent,1980-04-18,2024-11-22,56,Golf & Play,yes
+Jennifer,Okafor,jen.okafor@gmail.com,555-706-8899,503 Willow Park Ave,39,Female,Parent,1985-11-05,2024-12-02,60,Fit & Play,yes
+David,Morales,d.morales@hotmail.com,555-807-9900,89 Sunset Terrace,36,Male,Parent,1988-07-22,2024-11-30,42,Fit & Play,yes
+Elizabeth,Strauss,e.strauss@yahoo.com,555-908-0011,1455 Pine Valley Ct,50,Female,Parent,1974-02-14,2024-12-04,46,Golf & Play,yes
+William,Tanaka,w.tanaka@gmail.com,555-109-1122,672 Lakeshore Dr,58,Male,Non-Parent,1966-09-03,2024-11-18,32,Golf,yes
+Sarah,Blackwell,s.blackwell@outlook.com,555-210-2233,1001 Magnolia St,42,Female,Parent,1982-12-28,2024-12-01,50,Fit & Play,yes
+Thomas,Fitzgerald,t.fitz@gmail.com,555-311-3344,234 Elm Court,48,Male,Parent,1976-05-11,2024-11-25,44,Golf & Play,yes
+Amanda,Rivera,a.rivera@yahoo.com,555-412-4455,567 Cedar Heights,35,Female,Parent,1989-03-19,2024-12-05,58,Fit & Play,yes
+Christopher,Walsh,c.walsh@email.com,555-513-5566,890 Spruce Meadow Ln,63,Male,Non-Parent,1961-10-07,2024-11-12,28,Golf,yes
+Michelle,Johansson,m.johansson@gmail.com,555-614-6677,123 Valley View Rd,41,Female,Parent,1983-08-24,2024-12-02,54,Fit & Play,yes
+Daniel,Oconnor,d.oconnor@hotmail.com,555-715-7788,456 Rolling Hills Dr,53,Male,Parent,1971-01-16,2024-11-29,40,Golf,yes
+Laura,Kim,laura.kim@outlook.com,555-816-8899,789 Brookside Way,38,Female,Parent,1986-06-08,2024-12-03,48,Fit & Play,yes
+Richard,Gonzalez,r.gonzalez@gmail.com,555-917-9900,1012 Summit Ave,57,Male,Parent,1967-04-25,2024-11-20,36,Golf & Play,yes
+Karen,Bennett,k.bennett@yahoo.com,555-118-0011,345 Orchard Park,46,Female,Parent,1978-11-13,2024-12-01,52,Golf & Play,yes
+Joseph,Nakamura,j.nakamura@email.com,555-219-1122,678 Riverside Ct,40,Male,Parent,1984-09-01,2024-11-27,46,Fit & Play,yes
+Stephanie,Phillips,s.phillips@gmail.com,555-320-2233,901 Hilltop Ln,33,Female,Parent,1991-02-20,2024-12-04,62,Play,yes
+Brian,Sullivan,b.sullivan@outlook.com,555-421-3344,1234 Creekwood Dr,59,Male,Non-Parent,1965-07-14,2024-11-16,30,Golf,yes
+Angela,Torres,a.torres@yahoo.com,555-522-4455,567 Meadowlark St,37,Female,Parent,1987-12-06,2024-12-02,56,Fit & Play,yes
+Kevin,Patel,k.patel@gmail.com,555-623-5566,890 Parkview Rd,45,Male,Parent,1979-03-29,2024-11-24,42,Golf & Play,yes
+Nicole,Andersen,n.andersen@hotmail.com,555-724-6677,123 Foxglove Way,51,Female,Parent,1973-10-17,2024-12-05,38,Golf,yes
+Jason,Reeves,j.reeves@email.com,555-825-7788,456 Stonegate Blvd,34,Male,Parent,1990-05-23,2024-11-30,50,Fit & Play,yes
+Rebecca,Hoffman,r.hoffman@gmail.com,555-926-8899,789 Timber Ridge Ave,43,Female,Parent,1981-08-11,2024-12-03,48,Golf & Play,yes
+Mark,Iwamoto,m.iwamoto@yahoo.com,555-127-9900,1012 Aspen Ct,56,Male,Non-Parent,1968-01-04,2024-11-19,34,Golf,yes
+Lisa,Carmichael,l.carmichael@outlook.com,555-228-0011,345 Cherry Blossom Ln,49,Female,Parent,1975-06-27,2024-12-01,44,Golf & Play,yes
+Andrew,Nguyen,a.nguyen@gmail.com,555-329-1122,678 Whispering Pines,38,Male,Parent,1986-11-15,2024-11-26,52,Fit & Play,yes
+Megan,Callahan,m.callahan@email.com,555-430-2233,901 Grandview Dr,31,Female,Parent,1993-04-09,2024-12-04,64,Play,yes
+Steven,Brooks,s.brooks@hotmail.com,555-531-3344,1234 Sycamore St,62,Male,Parent,1962-08-21,2024-11-14,26,Golf,yes
+Rachel,Dimitriou,r.dimitriou@yahoo.com,555-632-4455,567 Laurel Heights,44,Female,Parent,1980-02-03,2024-12-02,46,Golf & Play,yes
+Gregory,Foster,g.foster@gmail.com,555-733-5566,890 Windmill Rd,50,Male,Parent,1974-09-18,2024-11-23,40,Golf,yes
+Heather,Jackson,h.jackson@outlook.com,555-834-6677,123 Primrose Path,36,Female,Parent,1988-05-30,2024-12-05,54,Fit & Play,yes
+Eric,Lindstrom,e.lindstrom@email.com,555-935-7788,456 Blue Heron Way,54,Male,Non-Parent,1970-12-12,2024-11-17,32,Golf,yes
+Amy,Martinez,a.martinez@gmail.com,555-136-8899,789 Cottonwood Ave,40,Female,Parent,1984-07-06,2024-12-03,50,Fit & Play,yes
+Peter,Chang,p.chang@yahoo.com,555-237-9900,1012 Ridgewood Ct,47,Male,Parent,1977-03-24,2024-11-28,44,Golf & Play,yes
+Christine,Murphy,c.murphy@hotmail.com,555-338-0011,345 Hawthorn Ln,52,Female,Parent,1972-10-09,2024-12-01,42,Golf,yes
+Ryan,Abernathy,r.abernathy@gmail.com,555-439-1122,678 Sunflower St,35,Male,Parent,1989-06-17,2024-11-30,56,Fit & Play,yes
+Victoria,Choi,v.choi@outlook.com,555-540-2233,901 Dogwood Dr,29,Female,Parent,1995-01-25,2024-12-04,66,Play,yes
+Dennis,Kowalski,d.kowalski@email.com,555-641-3344,1234 Juniper Rd,60,Male,Non-Parent,1964-04-08,2024-11-13,24,Golf,yes
+Julia,Thornton,j.thornton@yahoo.com,555-742-4455,567 Lavender Way,43,Female,Parent,1981-11-21,2024-12-02,48,Golf & Play,yes
+Kenneth,Yamamoto,k.yamamoto@gmail.com,555-843-5566,890 Poplar Ave,46,Male,Parent,1978-08-14,2024-11-25,42,Golf & Play,yes
+Natalie,Graham,n.graham@hotmail.com,555-944-6677,123 Mulberry Ct,37,Female,Parent,1987-03-02,2024-12-05,58,Fit & Play,yes
+Charles,Brennan,c.brennan@outlook.com,555-145-7788,456 Birchwood Blvd,55,Male,Parent,1969-09-26,2024-11-21,36,Golf,yes
+Diana,Vasquez,d.vasquez@gmail.com,555-246-8899,789 Marigold Ln,41,Female,Parent,1983-05-13,2024-12-03,52,Fit & Play,yes
+Frank,Olsen,f.olsen@yahoo.com,555-347-9900,1012 Hemlock St,64,Male,Non-Parent,1960-12-30,2024-11-10,22,Golf,yes
+Samantha,Wells,s.wells@email.com,555-448-0011,345 Daisy Chain Dr,48,Female,Parent,1976-07-19,2024-12-01,46,Golf & Play,yes
+Timothy,Russo,t.russo@gmail.com,555-549-1122,678 Acacia Way,39,Male,Parent,1985-02-07,2024-11-29,50,Fit & Play,yes
+Brenda,Sinclair,b.sinclair@hotmail.com,555-650-2233,901 Magnolia Ct,32,Female,Parent,1992-10-14,2024-12-04,60,Play,yes
+George,Ibrahim,g.ibrahim@outlook.com,555-751-3344,1234 Chestnut Ave,57,Male,Parent,1967-06-03,2024-11-18,34,Golf & Play,yes
+Teresa,Hopkins,t.hopkins@yahoo.com,555-852-4455,567 Ivy Garden Rd,45,Female,Parent,1979-01-22,2024-12-02,44,Golf & Play,yes
+Ronald,Fischer,r.fischer@gmail.com,555-953-5566,890 Olive Branch Ln,51,Male,Non-Parent,1973-08-10,2024-11-22,30,Golf,yes
+Catherine,Morris,c.morris@email.com,555-154-6677,123 Peony Place,38,Female,Parent,1986-04-28,2024-12-05,54,Fit & Play,yes
+Keith,Andrade,k.andrade@hotmail.com,555-255-7788,456 Wisteria Blvd,42,Male,Parent,1982-11-06,2024-11-27,46,Golf & Play,yes
+Donna,Price,d.price@yahoo.com,555-356-8899,789 Jasmine Way,53,Female,Parent,1971-07-15,2024-12-03,40,Golf,yes
+Scott,Lee,s.lee@gmail.com,555-457-9900,1012 Tulip Ct,36,Male,Parent,1988-02-23,2024-11-30,52,Fit & Play,yes
+Pamela,Wright,p.wright@outlook.com,555-558-0011,345 Azalea Dr,47,Female,Parent,1977-09-09,2024-12-01,48,Golf & Play,yes
+Jeffrey,Baxter,j.baxter@email.com,555-659-1122,678 Rosemary Ln,60,Male,Non-Parent,1964-03-17,2024-11-15,28,Golf,yes
+Melissa,Stewart,m.stewart@gmail.com,555-760-2233,901 Violet Ave,34,Female,Parent,1990-12-04,2024-12-04,58,Fit & Play,yes
+Douglas,Santana,d.santana@yahoo.com,555-861-3344,1234 Zinnia St,49,Male,Parent,1975-05-21,2024-11-24,40,Golf & Play,yes
+Sharon,Fleming,s.fleming@hotmail.com,555-962-4455,567 Bluebell Rd,44,Female,Parent,1980-10-13,2024-12-02,50,Golf & Play,yes
+Matthew,Pearson,m.pearson@outlook.com,555-163-5566,890 Dandelion Way,56,Male,Parent,1968-06-29,2024-11-19,36,Golf,yes
+Carolyn,Dixon,c.dixon@gmail.com,555-264-6677,123 Chrysanthemum Ct,40,Female,Parent,1984-01-16,2024-12-05,52,Fit & Play,yes
+Gary,Espinoza,g.espinoza@email.com,555-365-7788,456 Gardenia Blvd,33,Male,Parent,1991-08-08,2024-11-30,54,Fit & Play,yes
+Kimberly,Boyd,k.boyd@yahoo.com,555-466-8899,789 Hibiscus Ln,46,Female,Parent,1978-03-25,2024-12-03,44,Golf & Play,yes
+Donald,Gutierrez,d.gutierrez@gmail.com,555-567-9900,1012 Iris Ave,62,Male,Non-Parent,1962-11-11,2024-11-12,26,Golf,yes
+Janet,Chambers,j.chambers@hotmail.com,555-668-0011,345 Snapdragon Dr,50,Female,Parent,1974-06-07,2024-12-01,42,Golf,yes
+Jerry,Ramos,j.ramos@outlook.com,555-769-1122,678 Clover Way,37,Male,Parent,1987-09-20,2024-11-28,48,Fit & Play,yes
+Deborah,Hartley,d.hartley@gmail.com,555-870-2233,901 Pansy Ct,43,Female,Parent,1981-04-02,2024-12-04,46,Golf & Play,yes
+Raymond,Kaplan,r.kaplan@email.com,555-971-3344,1234 Daffodil St,54,Male,Parent,1970-12-18,2024-11-21,38,Golf,yes
+Alice,Crawford,a.crawford@yahoo.com,555-172-4455,567 Orchid Rd,30,Female,Parent,1994-07-31,2024-12-05,62,Play,yes
+Randy,Hubbard,r.hubbard@gmail.com,555-273-5566,890 Carnation Ave,58,Male,Non-Parent,1966-02-14,2024-11-16,30,Golf,yes
+Martha,Barnes,m.barnes@hotmail.com,555-374-6677,123 Aster Way,41,Female,Parent,1983-10-26,2024-12-02,50,Fit & Play,yes
+Larry,Park,l.park@outlook.com,555-475-7788,456 Petunia Blvd,48,Male,Parent,1976-05-08,2024-11-25,44,Golf & Play,yes
+Debra,Newman,d.newman@gmail.com,555-576-8899,789 Geranium Ln,35,Female,Parent,1989-01-15,2024-12-03,56,Fit & Play,yes
+Henry,Valdez,h.valdez@yahoo.com,555-677-9900,1012 Buttercup Ct,52,Male,Parent,1972-08-23,2024-11-22,40,Golf & Play,yes
+Marie,Hicks,m.hicks@email.com,555-778-0011,345 Freesia Dr,45,Female,Parent,1979-03-10,2024-12-01,48,Golf & Play,yes
+Carl,Jimenez,c.jimenez@gmail.com,555-879-1122,678 Anemone Way,61,Male,Non-Parent,1963-11-04,2024-11-14,28,Golf,yes
+Ruth,Mckenzie,r.mckenzie@hotmail.com,555-980-2233,901 Begonia Ave,39,Female,Parent,1985-06-18,2024-12-04,54,Fit & Play,yes
+Eugene,Dunn,e.dunn@outlook.com,555-181-3344,1234 Foxglove St,46,Male,Parent,1978-01-27,2024-11-27,42,Golf & Play,yes
+Dorothy,Lawson,d.lawson@yahoo.com,555-282-4455,567 Delphinium Rd,55,Female,Parent,1969-09-12,2024-12-02,38,Golf,yes
+Wayne,Silva,w.silva@gmail.com,555-383-5566,890 Camellia Blvd,33,Male,Parent,1991-04-05,2024-11-30,58,Fit & Play,yes
+Gloria,Fletcher,g.fletcher@email.com,555-484-6677,123 Lantana Way,49,Female,Parent,1975-12-21,2024-12-05,44,Golf & Play,yes
+Roger,Medina,r.medina@hotmail.com,555-585-7788,456 Verbena Ct,57,Male,Parent,1967-07-09,2024-11-19,36,Golf,yes
+Judith,Schneider,j.schneider@gmail.com,555-686-8899,789 Sweet Pea Ln,42,Female,Parent,1982-02-16,2024-12-03,50,Fit & Play,yes
+Arthur,Benson,a.benson@yahoo.com,555-787-9900,1012 Primrose Ave,65,Male,Non-Parent,1959-10-28,2024-11-11,20,Golf,yes
+Janice,Perry,j.perry@outlook.com,555-888-0011,345 Dahlia Dr,36,Female,Parent,1988-05-14,2024-12-01,56,Fit & Play,yes
+Roy,Castillo,r.castillo@gmail.com,555-989-1122,678 Lilac Way,44,Male,Parent,1980-08-03,2024-11-26,46,Golf & Play,yes
+Andrea,Santos,a.santos@email.com,555-190-2233,901 Hollyhock St,31,Female,Parent,1993-01-19,2024-12-04,60,Play,yes
+Philip,Tran,p.tran@hotmail.com,555-291-3344,1234 Morning Glory Rd,53,Male,Parent,1971-06-25,2024-11-23,38,Golf,yes
+Virginia,Stone,v.stone@yahoo.com,555-392-4455,567 Zinnia Blvd,47,Female,Parent,1977-11-07,2024-12-02,46,Golf & Play,yes
+Jack,Mendez,j.mendez@gmail.com,555-493-5566,890 Larkspur Ct,59,Male,Non-Parent,1965-03-22,2024-11-17,32,Golf,yes
+Kathleen,Burke,k.burke@outlook.com,555-594-6677,123 Yarrow Ave,40,Female,Parent,1984-08-09,2024-12-05,52,Fit & Play,yes
+Alan,Hammond,a.hammond@email.com,555-695-7788,456 Cosmos Way,35,Male,Parent,1989-12-01,2024-11-30,50,Fit & Play,yes
+Diane,Fox,d.fox@gmail.com,555-796-8899,789 Heather Ln,48,Female,Parent,1976-04-17,2024-12-03,44,Golf & Play,yes
+Russell,Weaver,r.weaver@yahoo.com,555-897-9900,1012 Clarkia Dr,56,Male,Parent,1968-09-06,2024-11-20,34,Golf,yes
+Marilyn,Hansen,m.hansen@hotmail.com,555-998-0011,345 Amaranth Blvd,43,Female,Parent,1981-02-28,2024-12-01,48,Golf & Play,yes
+Jose,Reed,j.reed@outlook.com,555-199-1122,678 Liatris St,37,Male,Parent,1987-07-13,2024-11-28,54,Fit & Play,yes
+Cheryl,Payne,c.payne@gmail.com,555-300-2233,901 Salvia Way,51,Female,Non-Parent,1973-10-05,2024-12-04,36,Golf,yes
+Harold,Delgado,h.delgado@email.com,555-401-3344,1234 Columbine Ave,45,Male,Parent,1979-05-19,2024-11-25,42,Golf & Play,yes
+Joyce,Walters,j.walters@yahoo.com,555-502-4455,567 Bellflower Rd,38,Female,Parent,1986-12-23,2024-12-02,56,Fit & Play,yes
+Gerald,Cross,g.cross@gmail.com,555-603-5566,890 Coneflower Ct,63,Male,Non-Parent,1961-03-08,2024-11-13,24,Golf,yes
+Kelly,Owens,k.owens@hotmail.com,555-704-6677,123 Tickseed Ln,34,Female,Parent,1990-08-16,2024-12-05,58,Fit & Play,yes
+Lawrence,Pope,l.pope@outlook.com,555-805-7788,456 Cornflower Blvd,50,Male,Parent,1974-01-30,2024-11-22,40,Golf & Play,yes
+Ann,Powers,a.powers@gmail.com,555-906-8899,789 Edelweiss Way,46,Female,Parent,1978-06-12,2024-12-03,46,Golf & Play,yes
+Terry,Keller,t.keller@email.com,555-107-9900,1012 Bluebonnet Dr,58,Male,Non-Parent,1966-11-24,2024-11-18,30,Golf,yes
+Kathryn,Schultz,k.schultz@yahoo.com,555-208-0011,345 Coreopsis Ave,41,Female,Parent,1983-04-07,2024-12-01,50,Fit & Play,yes
+Albert,Herrera,a.herrera@gmail.com,555-309-1122,678 Lupine St,36,Male,Parent,1988-09-15,2024-11-29,52,Fit & Play,yes
+Frances,Warren,f.warren@hotmail.com,555-410-2233,901 Phlox Way,54,Female,Parent,1970-02-01,2024-12-04,40,Golf,yes
+Jonathan,Graves,j.graves@outlook.com,555-511-3344,1234 Trillium Rd,47,Male,Parent,1977-07-20,2024-11-24,44,Golf & Play,yes
+Sara,Ray,s.ray@gmail.com,555-612-4455,567 Hellebore Blvd,30,Female,Parent,1994-12-08,2024-12-05,64,Play,yes
+Ralph,Soto,r.soto@yahoo.com,555-713-5566,890 Ranunculus Ct,55,Male,Parent,1969-05-26,2024-11-20,36,Golf,yes
+Evelyn,Alexander,e.alexander@email.com,555-814-6677,123 Scabiosa Ln,42,Female,Parent,1982-10-18,2024-12-02,48,Golf & Play,yes
+Patrick,Sharp,p.sharp@gmail.com,555-915-7788,456 Astilbe Ave,39,Male,Parent,1985-03-04,2024-11-27,50,Fit & Play,yes
+Irene,Holland,i.holland@hotmail.com,555-116-8899,789 Hosta Way,48,Female,Parent,1976-08-22,2024-12-03,44,Golf & Play,yes
+Walter,Floyd,w.floyd@outlook.com,555-217-9900,1012 Fern Dr,61,Male,Non-Parent,1963-01-14,2024-11-15,28,Golf,yes
+Shirley,Dean,s.dean@gmail.com,555-318-0011,345 Sedum Blvd,37,Female,Parent,1987-06-30,2024-12-01,54,Fit & Play,yes
+Willie,Gregory,w.gregory@yahoo.com,555-419-1122,678 Agapanthus St,43,Male,Parent,1981-11-09,2024-11-26,46,Golf & Play,yes
+Lillian,Shaw,l.shaw@email.com,555-520-2233,901 Monarda Way,33,Female,Parent,1991-04-17,2024-12-04,60,Play,yes
+Bruce,Palmer,b.palmer@gmail.com,555-621-3344,1234 Echinacea Rd,52,Male,Parent,1972-09-25,2024-11-21,38,Golf,yes
+Lori,Ward,l.ward@hotmail.com,555-722-4455,567 Rudbeckia Ct,45,Female,Parent,1979-02-11,2024-12-02,46,Golf & Play,yes
+Louis,Russell,l.russell@outlook.com,555-823-5566,890 Gaillardia Ave,57,Male,Non-Parent,1967-07-03,2024-11-17,32,Golf,yes
+Joan,Peterson,j.peterson@gmail.com,555-924-6677,123 Pentas Ln,40,Female,Parent,1984-12-19,2024-12-05,52,Fit & Play,yes
+Harry,Hayes,h.hayes@yahoo.com,555-125-7788,456 Dianthus Blvd,34,Male,Parent,1990-05-06,2024-11-30,54,Fit & Play,yes
+Tammy,Ellis,t.ellis@email.com,555-226-8899,789 Nemesia Way,49,Female,Parent,1975-10-14,2024-12-03,44,Golf & Play,yes
+Fred,Gordon,f.gordon@gmail.com,555-327-9900,1012 Celosia Dr,59,Male,Parent,1965-03-28,2024-11-19,34,Golf,yes
+Emily,Tucker,e.tucker@hotmail.com,555-428-0011,345 Calibrachoa Ave,28,Female,Parent,1996-08-05,2024-12-01,68,Play,yes
+Norman,Hart,n.hart@outlook.com,555-529-1122,678 Osteospermum St,44,Male,Parent,1980-01-23,2024-11-25,42,Golf & Play,yes
+Phyllis,Webb,p.webb@yahoo.com,555-630-2233,901 Torenia Way,53,Female,Parent,1971-06-10,2024-12-04,40,Golf,yes
+Benjamin,Lane,b.lane@gmail.com,555-731-3344,1234 Impatiens Rd,37,Male,Parent,1987-11-27,2024-11-28,50,Fit & Play,yes
+Rose,Cole,r.cole@email.com,555-832-4455,567 Lobelia Blvd,46,Female,Parent,1978-04-15,2024-12-02,46,Golf & Play,yes
+Edwin,Murray,e.murray@hotmail.com,555-933-5566,890 Alyssum Ct,62,Male,Non-Parent,1962-09-02,2024-11-12,26,Golf,yes
+Anne,Sims,a.sims@gmail.com,555-134-6677,123 Lantana Ln,35,Female,Parent,1989-02-18,2024-12-05,56,Fit & Play,yes
+Vincent,Riley,v.riley@outlook.com,555-235-7788,456 Bacopa Ave,41,Male,Parent,1983-07-04,2024-11-27,48,Fit & Play,yes
+Tina,Long,t.long@yahoo.com,555-336-8899,789 Mandevilla Way,50,Female,Parent,1974-12-22,2024-12-03,42,Golf & Play,yes
+Clarence,Simmons,c.simmons@gmail.com,555-437-9900,1012 Portulaca Dr,56,Male,Parent,1968-05-10,2024-11-20,36,Golf,yes
+Jean,Butler,j.butler@email.com,555-538-0011,345 Gazania Blvd,39,Female,Parent,1985-10-28,2024-12-01,52,Fit & Play,yes
+Howard,Foster,h.foster@hotmail.com,555-639-1122,678 Gerbera St,47,Male,Parent,1977-03-16,2024-11-24,44,Golf & Play,yes
