@@ -52,8 +52,15 @@ export function App() {
   }, [memberData, contactData]);
 
   // Compute which fields will actually be used for analysis (including synthetic Columbia fields)
+  // Address fields are ALWAYS excluded from direct analysis — they're only used
+  // to derive Columbia residency and distance via the geo module
   const analysisFields = useMemo(() => {
-    const base = sharedFields.filter(f => !excludedFields.has(f));
+    const base = sharedFields.filter(f => {
+      if (excludedFields.has(f)) return false;
+      // Always exclude the address field itself from direct ML analysis
+      if (addressField && f === addressField) return false;
+      return true;
+    });
     // Add synthetic Columbia fields if enabled and address field exists
     if (columbiaEnabled && addressField) {
       const syntheticFields = ['columbia_resident', 'distance_from_columbia_mi'];
@@ -240,7 +247,7 @@ export function App() {
               </div>
               <div>
                 <h1 className="text-lg font-bold text-white tracking-tight">MemberPredict</h1>
-                <p className="text-xs text-slate-400">ML-Powered Membership Scoring</p>
+                <p className="text-xs text-slate-400">ML-Powered Membership Scoring v3.0</p>
               </div>
             </div>
             {step === 'results' && (
@@ -322,6 +329,8 @@ export function App() {
                   onExcludeAll={handleExcludeAll}
                   onIncludeAll={handleIncludeAll}
                   onAutoDetect={autoDetectExclusions}
+                  addressField={addressField}
+                  columbiaEnabled={columbiaEnabled}
                 />
               </div>
             )}

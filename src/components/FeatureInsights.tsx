@@ -47,7 +47,23 @@ export function FeatureInsights({ features }: FeatureInsightsProps) {
                 {/* Header */}
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex items-center gap-2 min-w-0">
-                    <h4 className="font-semibold text-white truncate">{feature.field}</h4>
+                    <h4 className="font-semibold text-white truncate">
+                      {feature.field.includes('(') ? (
+                        <>
+                          {feature.field.split('(')[0].trim().replace(/_/g, ' ')}{' '}
+                          <span className={feature.direction === 'positive' ? 'text-emerald-400' : 'text-red-400'}>
+                            ({feature.field.split('(')[1]}
+                          </span>
+                        </>
+                      ) : feature.field.includes('::') ? (
+                        <>
+                          {feature.field.split('::')[0].replace(/_/g, ' ')}:{' '}
+                          <span className="text-violet-300">{feature.field.split('::')[1]}</span>
+                        </>
+                      ) : (
+                        feature.field.replace(/_/g, ' ')
+                      )}
+                    </h4>
                     <span className={cn(
                       'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium',
                       feature.direction === 'positive'
